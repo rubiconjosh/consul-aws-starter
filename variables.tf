@@ -40,3 +40,21 @@ variable "vpc_cidr" {
   default     = "10.0.1.0/24"
   description = "CIDR for AWS VPC"
 }
+
+variable "vpc_azs" {
+  type        = list(string)
+  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  description = "CIDRs for private subnets"
+}
+
+variable "vpc_public_subnets" {
+  type        = list(string)
+  default     = ["10.0.1.192/26"]
+  description = "CIDRs for private subnets"
+}
+
+variable "vpc_private_subnets" {
+  type        = list(string)
+  default     = ["10.0.1.0/26", "10.0.1.64/26", "10.0.1.128/26"]
+  description = "CIDRs for private subnets"
+}

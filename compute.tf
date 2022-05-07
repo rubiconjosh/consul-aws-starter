@@ -19,7 +19,7 @@ resource "aws_instance" "consul_server" {
   count                  = 3
   instance_type          = var.instance_type
   key_name               = var.instance_key_name
-  subnet_id              = aws_subnet.public.id
+  subnet_id              = module.vpc.private_subnets[count.index]
   user_data              = file("scripts/server_user_data.sh")
   vpc_security_group_ids = [module.sg_consul_server.security_group_id, aws_security_group.sg_allow_ssh.id, aws_security_group.sg_allow_webui.id]
 
@@ -32,7 +32,7 @@ resource "aws_instance" "consul_client" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = var.instance_type
   key_name               = var.instance_key_name
-  subnet_id              = aws_subnet.public.id
+  subnet_id              = module.vpc.public_subnets[0]
   vpc_security_group_ids = [module.sg_consul_client.security_group_id, aws_security_group.sg_allow_ssh.id]
 
   tags = {
