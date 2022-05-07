@@ -20,6 +20,7 @@ resource "aws_instance" "consul_server" {
   instance_type          = var.instance_type
   key_name               = var.instance_key_name
   subnet_id              = aws_subnet.public.id
+  user_data              = file("scripts/server_user_data.sh")
   vpc_security_group_ids = [module.sg_consul_server.security_group_id, aws_security_group.sg_allow_ssh.id, aws_security_group.sg_allow_webui.id]
 
   tags = {
