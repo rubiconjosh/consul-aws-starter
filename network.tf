@@ -71,7 +71,7 @@ module "sg_consul_server" {
   description = "Security group for Consul server"
   vpc_id      = module.vpc.vpc_id
 
-  ingress_cidr_blocks = module.vpc.private_subnets_cidr_blocks
+  ingress_cidr_blocks = flatten([module.vpc.private_subnets_cidr_blocks, module.vpc.public_subnets_cidr_blocks])
   ingress_rules       = ["consul-tcp", "consul-webui-http-tcp", "consul-serf-lan-tcp", "consul-serf-lan-udp"]
 
   tags = {
@@ -86,7 +86,7 @@ module "sg_consul_client" {
   description = "Security group for Consul client"
   vpc_id      = module.vpc.vpc_id
 
-  ingress_cidr_blocks = module.vpc.public_subnets_cidr_blocks
+  ingress_cidr_blocks = flatten([module.vpc.public_subnets_cidr_blocks, module.vpc.private_subnets_cidr_blocks])
   ingress_rules       = ["consul-serf-lan-tcp", "consul-serf-lan-udp"]
 
   tags = {
