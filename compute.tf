@@ -14,6 +14,18 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
+resource "aws_instance" "bastion" {
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = var.bastion_instance_type
+  key_name               = var.instance_key_name
+  subnet_id              = module.vpc.public_subnets[0]
+  vpc_security_group_ids = [aws_security_group.sg_allow_ssh.id]
+
+  tags = {
+    Name = "${var.project_name}-bastion_host"
+  }
+}
+
 resource "aws_instance" "consul_server" {
   ami                    = data.aws_ami.ubuntu.id
   count                  = 3

@@ -17,6 +17,12 @@ variable "ssh_source_address" {
 
 # Optional Variables
 
+variable "bastion_instance_type" {
+  type        = string
+  default     = "t2.micro"
+  description = "AWS Instance type for bastion host"
+}
+
 variable "instance_type" {
   type        = string
   default     = "t2.micro"
