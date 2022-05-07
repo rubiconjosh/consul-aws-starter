@@ -45,6 +45,7 @@ resource "aws_instance" "consul_client" {
   instance_type          = var.instance_type
   key_name               = var.instance_key_name
   subnet_id              = module.vpc.public_subnets[0]
+  user_data              = file("scripts/client_user_data.sh")
   vpc_security_group_ids = [module.sg_consul_client.security_group_id, aws_security_group.sg_allow_ssh.id]
 
   tags = {
